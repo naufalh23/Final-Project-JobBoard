@@ -110,6 +110,7 @@ const Overview = ({ setSelectedTab }: OverviewProps) => {
                         <div className="avatar">
                           <div className="mask mask-squircle h-12 w-12">
                             {job.logo ? (
+                              // eslint-disable-next-line @next/next/no-img-element -- host is the API's own BASE_API_URL (server-uploaded file), not declarable in next.config.js images.remotePatterns ahead of deployment
                               <img
                                 src={job.logo}
                                 alt={`${job.job_title} logo`}
@@ -193,7 +194,9 @@ const SummaryCard = ({
   };
 
   return (
-    <div className={`p-6 ${color} rounded-lg flex items-center space-x-4 shadow-lg`}>
+    <div
+      className={`p-6 ${color} rounded-lg flex items-center space-x-4 shadow-lg`}
+    >
       {icon}
       <div>
         <h2 className="text-2xl font-semibold">{formatNumber(count)}</h2>
@@ -202,6 +205,5 @@ const SummaryCard = ({
     </div>
   );
 };
-
 
 export default Overview;

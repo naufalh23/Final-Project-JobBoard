@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const openCageApi = process.env.OPENCAGE_API_KEY
+const openCageApi = process.env.OPENCAGE_API_KEY;
 
 /**
  * Geocode an address to get coordinates.
@@ -12,7 +12,7 @@ export async function geocodeAddress(address: string) {
 
   try {
     const response = await fetch(url);
-    const data = await response.json();
+    const data: any = await response.json();
 
     if (data && data.results && data.results.length > 0) {
       const { lat, lng } = data.results[0].geometry;

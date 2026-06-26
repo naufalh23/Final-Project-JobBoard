@@ -24,7 +24,7 @@ const FavoriteJobsTab = () => {
         console.error('Failed to fetch user info');
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -65,6 +65,7 @@ const FavoriteJobsTab = () => {
                       <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
                           {favorite.job.company.logo ? (
+                            // eslint-disable-next-line @next/next/no-img-element -- host is the API's own BASE_API_URL (server-uploaded file), not declarable in next.config.js images.remotePatterns ahead of deployment
                             <img
                               src={favorite.job.company.logo}
                               alt={`${favorite.job.company.company_name} logo`}
@@ -78,8 +79,12 @@ const FavoriteJobsTab = () => {
                         </div>
                       </div>
                       <div>
-                        <div className="font-bold">{favorite.job.job_title}</div>
-                        <div className="text-sm opacity-50">{favorite.job.location}</div>
+                        <div className="font-bold">
+                          {favorite.job.job_title}
+                        </div>
+                        <div className="text-sm opacity-50">
+                          {favorite.job.location}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -90,7 +95,9 @@ const FavoriteJobsTab = () => {
                       {moment(favorite.created_at).format('h:mm A')}
                     </span>
                     <span className="hidden lg:block">
-                      {moment(favorite.created_at).format('D MMM, YYYY | h:mm A')}
+                      {moment(favorite.created_at).format(
+                        'D MMM, YYYY | h:mm A',
+                      )}
                     </span>
                   </td>
                   <td>

@@ -59,10 +59,13 @@ const VerifyCertificatePage: React.FC = () => {
     if (!searchParams) return;
 
     const queryCode = searchParams.get('code');
-    if (queryCode) {
+    if (!queryCode) return;
+
+    const run = async () => {
       setCode(queryCode);
-      handleVerifyCertificate(queryCode, false);
-    }
+      await handleVerifyCertificate(queryCode, false);
+    };
+    run();
   }, [searchParams, handleVerifyCertificate]);
 
   return (

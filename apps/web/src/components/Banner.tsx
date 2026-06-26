@@ -51,8 +51,7 @@ const LandingPage = () => {
           setLatitude(position.coords.latitude);
           setLongitude(position.coords.longitude);
         },
-        () => {
-        },
+        () => {},
       );
     }
   }, []);
@@ -78,23 +77,23 @@ const LandingPage = () => {
 
             {/* Job Search Input */}
             <div className="flex flex-col sm:flex-row items-center bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4 sm:space-y-0">
-              <div className="flex items-center flex-grow bg-white border border-gray-300 rounded-md p-2.5 sm:p-3">
+              <div className="flex items-center grow bg-white border border-gray-300 rounded-md p-2.5 sm:p-3">
                 <FaSearch className="text-blue-600 mr-2" />
                 <input
                   type="text"
                   placeholder="Job title, Keyword..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="flex-grow bg-white focus:outline-none"
+                  className="grow bg-white focus:outline-none"
                 />
               </div>
 
               {/* Country Select Dropdown */}
-              <div className="flex-grow sm:ml-4">
+              <div className="grow sm:ml-4">
                 <Select
                   options={countryOptions}
                   placeholder={
-                    <div className="flex items-center flex-grow p-2.5">
+                    <div className="flex items-center grow p-2.5">
                       <GoLocation className="text-blue-600 mr-2" />
                       <span>Location</span>
                     </div>

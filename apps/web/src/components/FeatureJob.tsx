@@ -13,30 +13,35 @@ import { toggleSaveJob } from '@/lib/job';
 const FeatureJob = () => {
   const [jobs, setJobs] = useState<JobCardProps[]>([]);
 
-  const loadJobs = async () => {
-    try {
-      const jobFilters = { dateRange: 'latest' };
-      const jobsData = await fetchJobs('latest', jobFilters);
-
-      const formattedJobs = jobsData.slice(0, 6).map((job) => ({
-        job_id: job.job_id,
-        job_title: job.job_title,
-        location: job.location,
-        salary: job.salary !== undefined ? `$${job.salary}K` : null,
-        company: {
-          company_name: job.company.company_name,
-          logo: job.company.logo || null,
-        },
-      }));
-
-      setJobs(formattedJobs);
-    } catch (error) {
-      setJobs([]);
-    }
-  };
-
   useEffect(() => {
+    let ignore = false;
+
+    const loadJobs = async () => {
+      try {
+        const jobFilters = { dateRange: 'latest' };
+        const jobsData = await fetchJobs('latest', jobFilters);
+
+        const formattedJobs = jobsData.slice(0, 6).map((job) => ({
+          job_id: job.job_id,
+          job_title: job.job_title,
+          location: job.location,
+          salary: job.salary !== undefined ? `$${job.salary}K` : null,
+          company: {
+            company_name: job.company.company_name,
+            logo: job.company.logo || null,
+          },
+        }));
+
+        if (!ignore) setJobs(formattedJobs);
+      } catch (error) {
+        if (!ignore) setJobs([]);
+      }
+    };
+
     loadJobs();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return (
@@ -88,10 +93,10 @@ const JobCard = ({ job }: JobCardComponentProps) => {
             alt={`${job.company.company_name} Logo`}
             width={80}
             height={80}
-            className="rounded-sm flex-shrink-0"
+            className="rounded-sm shrink-0"
           />
         ) : (
-          <div className="w-20 h-20 bg-gray-300 flex items-center justify-center rounded-md text-gray-400 flex-shrink-0">
+          <div className="w-20 h-20 bg-gray-300 flex items-center justify-center rounded-md text-gray-400 shrink-0">
             <FiImage size={60} />
           </div>
         )}

@@ -76,6 +76,7 @@ const AppliedJobsTab = () => {
                       <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
                           {job.logo ? (
+                            // eslint-disable-next-line @next/next/no-img-element -- host is the API's own BASE_API_URL (server-uploaded file), not declarable in next.config.js images.remotePatterns ahead of deployment
                             <img
                               src={job.logo}
                               alt={`${job.job_title} logo`}

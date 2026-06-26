@@ -6,9 +6,9 @@ import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { MdOpenInNew } from "react-icons/md";
+import { MdOpenInNew } from 'react-icons/md';
 
-const base_url = process.env.NEXT_PUBLIC_BASE_API_URL
+const base_url = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 const BillsManage: React.FC = () => {
   const router = useRouter();
@@ -96,7 +96,10 @@ const BillsManage: React.FC = () => {
   };
 
   useEffect(() => {
-    loadDashboardData();
+    const run = async () => {
+      await loadDashboardData();
+    };
+    run();
   }, []);
 
   if (loading) return <p>Loading...</p>;

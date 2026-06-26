@@ -1,5 +1,5 @@
-import React from "react";
-import { format } from "date-fns";
+import React from 'react';
+import { format } from 'date-fns';
 
 interface ScoreCardProps {
   badge: string;
@@ -24,14 +24,16 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 }) => {
   // Format tanggal ke format Indonesia
   const formatDateToIndonesian = (date: string): string => {
-    return format(new Date(date), "dd MMMM yyyy, HH:mm");
+    return format(new Date(date), 'dd MMMM yyyy, HH:mm');
   };
 
   return (
     <div className="bg-gray-100 shadow-md rounded-lg p-6 mb-6 border border-gray-300 hover:shadow-xl transition">
       {/* Header */}
       <div className="mb-4">
-        <h3 className="text-lg font-bold text-blue-700 mb-2">{assessment_data}</h3>
+        <h3 className="text-lg font-bold text-blue-700 mb-2">
+          {assessment_data}
+        </h3>
         <p className="text-sm text-gray-500">
           <span className="font-medium">Created At: </span>
           {formatDateToIndonesian(created_at)}
@@ -41,7 +43,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
       {/* Body */}
       <div className="grid grid-cols-2 gap-y-3 text-gray-800 text-sm">
         <div className="font-medium">Badge:</div>
-        <div className="text-gray-700">{badge || "No Badge Awarded"}</div>
+        <div className="text-gray-700">{badge || 'No Badge Awarded'}</div>
 
         <div className="font-medium">Score:</div>
         <div className="text-gray-700">{score}</div>
@@ -49,18 +51,18 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
         <div className="font-medium">Status:</div>
         <div
           className={`font-semibold ${
-            status === "passed" ? "text-green-600" : "text-red-600"
+            status === 'passed' ? 'text-green-600' : 'text-red-600'
           }`}
         >
           {status.charAt(0).toUpperCase() + status.slice(1)}
         </div>
 
         <div className="font-medium">Unique Code:</div>
-        <div className="break-words text-gray-700">{unique_code}</div>
+        <div className="wrap-break-word text-gray-700">{unique_code}</div>
       </div>
 
       {/* Footer */}
-      {status === "passed" && (
+      {status === 'passed' && (
         <div className="mt-6 text-right">
           <button
             onClick={() => onGenerateCertificate(score_id)} // Panggil fungsi dengan score_id

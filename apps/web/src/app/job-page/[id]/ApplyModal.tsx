@@ -1,7 +1,7 @@
-"use client";
+'use client';
 import { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 import { applyForJob } from '@/lib/applyJob';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';

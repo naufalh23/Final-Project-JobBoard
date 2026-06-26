@@ -18,10 +18,6 @@ const DeveloperAssessment: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false); // State to control form visibility
 
-  useEffect(() => {
-    loadAssessments();
-  }, []);
-
   const loadAssessments = async () => {
     try {
       setLoading(true);
@@ -34,6 +30,13 @@ const DeveloperAssessment: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const run = async () => {
+      await loadAssessments();
+    };
+    run();
+  }, []);
 
   const handleCreateAssessment = async (data: any) => {
     try {

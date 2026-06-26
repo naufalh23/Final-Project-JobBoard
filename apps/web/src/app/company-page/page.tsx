@@ -46,12 +46,15 @@ export default function CompanyPage() {
   );
 
   useEffect(() => {
-    if (location) {
-      loadCompanies({ search: '' });
-    } else {
-      loadCompanies();
-    }
-  }, [sortOrder, location, loadCompanies]);
+    const run = async () => {
+      if (location) {
+        await loadCompanies({ search: '' });
+      } else {
+        await loadCompanies();
+      }
+    };
+    run();
+  }, [sortOrder, loadCompanies]);
 
   const handleSearch = (filters: {
     search: string;

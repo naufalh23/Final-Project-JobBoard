@@ -30,7 +30,6 @@ const SubsManage: React.FC = () => {
           return;
         }
 
-
         try {
           const decodedToken: DecodedToken = jwtDecode<DecodedToken>(token); // Decode token with updated interface
 
@@ -128,7 +127,10 @@ const SubsManage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchPlans(); // Fetch plans on component mount
+    const run = async () => {
+      await fetchPlans(); // Fetch plans on component mount
+    };
+    run();
   }, []);
 
   const handleAddPlan = async () => {
@@ -206,7 +208,7 @@ const SubsManage: React.FC = () => {
               type="checkbox"
               checked={isEditingAll}
               onChange={(e) => setIsEditingAll(e.target.checked)}
-              className="toggle bg-white border-gray-400 [--tglbg:theme(colors.gray.500)] checked:bg-blue-500 checked:border-sky-300 checked:[--tglbg:theme(colors.sky.200)]"
+              className="toggle bg-white border-gray-400 [--tglbg:var(--color-gray-500)] checked:bg-blue-500 checked:border-sky-300 checked:[--tglbg:var(--color-sky-200)]"
             />
             <span className="font-medium">Edit Mode</span>
           </label>

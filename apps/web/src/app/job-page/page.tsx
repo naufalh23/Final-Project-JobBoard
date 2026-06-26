@@ -55,11 +55,14 @@ export default function JobListingsPage() {
   );
 
   useEffect(() => {
-    if (location) {
-      loadJobs({}, location.latitude, location.longitude);
-    } else {
-      loadJobs();
-    }
+    const run = async () => {
+      if (location) {
+        await loadJobs({}, location.latitude, location.longitude);
+      } else {
+        await loadJobs();
+      }
+    };
+    run();
   }, [sortOrder, location, loadJobs]);
 
   const handleSearch = (filters: any) => {

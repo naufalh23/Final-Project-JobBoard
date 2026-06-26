@@ -96,16 +96,12 @@ const UserAssessment: React.FC = () => {
     }
 
     if (timeLeft === 0) {
-      handleAutoSubmit();
+      const run = async () => {
+        await handleAutoSubmit();
+      };
+      run();
     }
   }, [questions, timeLeft, handleAutoSubmit]);
-
-  useEffect(() => {
-    if (isActiveSubscription) {
-      loadAssessments();
-      loadUserScores();
-    }
-  }, [isActiveSubscription]);
 
   const loadAssessments = async () => {
     try {
@@ -119,6 +115,28 @@ const UserAssessment: React.FC = () => {
       setLoading(false);
     }
   };
+
+  const loadUserScores = async () => {
+    try {
+      setLoading(true);
+      const scores = await fetchUserScores();
+      setUserScores(scores);
+    } catch (error: any) {
+      console.error('Error loading user scores:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const run = async () => {
+      if (isActiveSubscription) {
+        await loadAssessments();
+        await loadUserScores();
+      }
+    };
+    run();
+  }, [isActiveSubscription]);
 
   const handleStartAssessment = async (assessmentId: number) => {
     try {
@@ -152,18 +170,6 @@ const UserAssessment: React.FC = () => {
     } catch (error: any) {
       console.error('Error submitting assessment:', error);
       toast.error(error.message || 'Failed to submit assessment');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadUserScores = async () => {
-    try {
-      setLoading(true);
-      const scores = await fetchUserScores();
-      setUserScores(scores);
-    } catch (error: any) {
-      console.error('Error loading user scores:', error);
     } finally {
       setLoading(false);
     }

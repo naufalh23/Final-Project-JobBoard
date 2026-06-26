@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 interface ProtectedRouteProps {
@@ -10,27 +10,27 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
-  const { isAuthenticated, role } = useSelector((state: RootState) => state.user);
+  const { isAuthenticated, role } = useSelector(
+    (state: RootState) => state.user,
+  );
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
 
+  // StoreProvider only renders `children` once redux-persist has rehydrated
+  // (see PersistGate in StoreProvider.tsx), so this component never mounts
+  // before the client-side auth state is available.
   useEffect(() => {
-    setIsClient(typeof window !== 'undefined');
-  }, []);
-
-  useEffect(() => {
-    if (isClient) {
-      if (!isAuthenticated) {
-        toast.info('Register or login to view all features!');
-        router.push('/auth');
-      } else if (requiredRole && role !== requiredRole) {
-        router.push('/');
-        toast.error('Access denied. Only'+' '+ requiredRole +`'s can view this page.`);
-      }
+    if (!isAuthenticated) {
+      toast.info('Register or login to view all features!');
+      router.push('/auth');
+    } else if (requiredRole && role !== requiredRole) {
+      router.push('/');
+      toast.error(
+        'Access denied. Only' + ' ' + requiredRole + `'s can view this page.`,
+      );
     }
-  }, [isAuthenticated, role, router, requiredRole, isClient]);
+  }, [isAuthenticated, role, router, requiredRole]);
 
-  if (!isClient || !isAuthenticated || (requiredRole && role !== requiredRole)) {
+  if (!isAuthenticated || (requiredRole && role !== requiredRole)) {
     return null;
   }
 

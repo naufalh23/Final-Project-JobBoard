@@ -1,7 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { getUserInfo, updateUserCredential, deleteUserAccount } from '@/lib/user';
+import {
+  getUserInfo,
+  updateUserCredential,
+  deleteUserAccount,
+} from '@/lib/user';
 import useLogout from '@/lib/useLogout';
 import { toast } from 'react-toastify';
 
@@ -70,7 +74,10 @@ const SettingAccount = () => {
       toast.error('Current password is required to change the password.');
       return;
     }
-    if (!passwordFields.newPassword.trim() || !passwordFields.confirmPassword.trim()) {
+    if (
+      !passwordFields.newPassword.trim() ||
+      !passwordFields.confirmPassword.trim()
+    ) {
       toast.error('Both new password and confirm password are required.');
       return;
     }
@@ -157,15 +164,15 @@ const SettingAccount = () => {
               label === 'Current Password'
                 ? 'currentPassword'
                 : label === 'New Password'
-                ? 'newPassword'
-                : 'confirmPassword';
+                  ? 'newPassword'
+                  : 'confirmPassword';
 
             const showKey: 'current' | 'new' | 'confirm' =
               label === 'Current Password'
                 ? 'current'
                 : label === 'New Password'
-                ? 'new'
-                : 'confirm';
+                  ? 'new'
+                  : 'confirm';
 
             return (
               <div key={index}>
@@ -211,8 +218,8 @@ const SettingAccount = () => {
         <p className="text-gray-600 text-sm mt-2">
           If you delete your HireMe account, you will no longer be able to get
           information about the matched jobs, following employers, and job
-          alerts, shortlisted jobs, and more. You will be abandoned from all
-          the services of HireMe.com.
+          alerts, shortlisted jobs, and more. You will be abandoned from all the
+          services of HireMe.com.
         </p>
         <button
           onClick={() => setShowDeleteConfirm(true)}
@@ -223,7 +230,7 @@ const SettingAccount = () => {
       </div>
 
       {showDeleteConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 z-50">
           <div className="bg-white rounded-md shadow-lg p-6 border border-gray-300 max-w-sm text-center mx-auto">
             <span className="block mb-4">
               Are you sure you want to delete your account?
@@ -247,7 +254,7 @@ const SettingAccount = () => {
       )}
 
       {showFinalDeleteConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 z-50">
           <div className="bg-white rounded-md shadow-lg p-6 border border-gray-300 max-w-sm text-center mx-auto">
             <span className="block mb-4">
               Enter your email and password to confirm account deletion.
@@ -285,7 +292,7 @@ const SettingAccount = () => {
       )}
 
       {showLastDeleteConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900/50 z-50">
           <div className="bg-white rounded-md shadow-lg p-6 border border-gray-300 max-w-sm text-center mx-auto">
             <span className="block mb-4">
               Are you absolutely sure you want to delete your account? This
