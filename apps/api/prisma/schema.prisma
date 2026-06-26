@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -574,7 +574,7 @@ model SubscriptionType {
   subscriptions      Subscription[]
   User               User?                @relation(fields: [User_id], references: [user_id])
 
-  @@index([User_id], map: "SubscriptionType_User_id_fkey")
+  @@index([User_id], map: "SubscriptionType_User_id_idx")
 }
 
 model Subscription {
@@ -594,7 +594,7 @@ model Subscription {
 
   @@index([user_id])
   @@index([status, end_date])
-  @@index([subscription_type_id], map: "Subscription_subscription_type_id_fkey")
+  @@index([subscription_type_id], map: "Subscription_subscription_type_id_idx")
 }
 
 model Review {
@@ -751,6 +751,6 @@ model PaymentTransaction {
   user                 User              @relation(fields: [user_id], references: [user_id])
 
   @@index([user_id])
-  @@index([subscription_id], map: "PaymentTransaction_subscription_id_fkey")
-  @@index([subscription_type_id], map: "PaymentTransaction_subscription_type_id_fkey")
+  @@index([subscription_id], map: "PaymentTransaction_subscription_id_idx")
+  @@index([subscription_type_id], map: "PaymentTransaction_subscription_type_id_idx")
 }
