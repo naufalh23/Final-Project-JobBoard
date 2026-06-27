@@ -5,7 +5,7 @@ import { validateApplicationData } from '@/middlewares/validateApplicationData';
 import { uploader } from '@/middlewares/uploader';
 import { checkAdminDev, checkCandidate } from '@/middlewares/checkRole';
 
-const resumeUploader = uploader('resume', 'resume');
+const resumeUploader = uploader('resume');
 
 export class ApplicationRouter {
   private router: Router;

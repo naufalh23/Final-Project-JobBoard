@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Select from 'react-select';
 import { FaSearch, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { GoLocation, GoStack } from 'react-icons/go';
@@ -22,8 +22,16 @@ export default function JobFilterBar({
   const [jobCategory, setJobCategory] = useState<string[]>([]);
   const [jobEducationLevel, setJobEducationLevel] = useState<string[]>([]);
   const [jobExperience, setJobExperience] = useState<string[]>([]);
-  const [filtersApplied, setFiltersApplied] = useState(false);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+
+  const filtersApplied = Boolean(
+    search ||
+    country ||
+    jobType.length ||
+    jobCategory.length ||
+    jobEducationLevel.length ||
+    jobExperience.length,
+  );
 
   const handleSearchClick = () => {
     onSearch({
@@ -35,17 +43,6 @@ export default function JobFilterBar({
       jobEducationLevel,
       jobExperience,
     });
-    setFiltersApplied(
-      Boolean(
-        search ||
-          country ||
-          jobType.length ||
-          salary.length ||
-          jobExperience.length ||
-          jobCategory.length ||
-          jobEducationLevel.length,
-      ),
-    );
   };
 
   const handleClearFilters = () => {
@@ -56,7 +53,6 @@ export default function JobFilterBar({
     setJobCategory([]);
     setJobEducationLevel([]);
     setJobExperience([]);
-    setFiltersApplied(false);
     onSearch({
       search: '',
       country: '',
@@ -68,35 +64,22 @@ export default function JobFilterBar({
     });
   };
 
-  useEffect(() => {
-    setFiltersApplied(
-      Boolean(
-        search ||
-          country ||
-          jobType.length ||
-          jobCategory.length ||
-          jobEducationLevel.length ||
-          jobExperience.length,
-      ),
-    );
-  }, [search, country, jobType, jobCategory, jobEducationLevel, jobExperience]);
-
   return (
-    <div className="flex flex-col lg:flex-row lg:flex-wrap items-center bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4 lg:space-y-0 lg:space-x-4 w-full max-w-[100%]">
+    <div className="flex flex-col lg:flex-row lg:flex-wrap items-center bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4 lg:space-y-0 lg:space-x-4 w-full max-w-full">
       {/* Job Title Search Input */}
-      <div className="flex items-center flex-grow bg-white border border-gray-300 rounded-md p-2 sm:p-3 w-full lg:w-auto">
+      <div className="flex items-center grow bg-white border border-gray-300 rounded-md p-2 sm:p-3 w-full lg:w-auto">
         <FaSearch className="text-blue-600 mr-2" />
         <input
           type="text"
           placeholder="Job title, Keyword..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-grow focus:outline-none"
+          className="grow focus:outline-none"
         />
       </div>
 
       {/* Country Select Dropdown */}
-      <div className="flex-grow lg:ml-4 w-full lg:w-auto">
+      <div className="grow lg:ml-4 w-full lg:w-auto">
         <Select
           options={mappedCountryOptions}
           isClearable
@@ -124,7 +107,7 @@ export default function JobFilterBar({
       </div>
 
       {/* Job Type Multi-select Dropdown */}
-      <div className="flex-grow lg:ml-2 w-full lg:w-auto">
+      <div className="grow lg:ml-2 w-full lg:w-auto">
         <Select
           options={jobTypeOptions}
           isMulti
@@ -183,7 +166,6 @@ export default function JobFilterBar({
       {/* Advanced Filters Section */}
       {showAdvancedFilters && (
         <div className="w-full mt-10 p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-
           {/* Job Category Multi-select Filter */}
           <div>
             <h3 className="font-medium text-gray-700 mb-2">Job Category</h3>

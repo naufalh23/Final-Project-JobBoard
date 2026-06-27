@@ -31,9 +31,12 @@ const Card: React.FC<CardProps> = ({
 
   // Inisialisasi state lokal ketika mode edit aktif
   useEffect(() => {
-    if (isEditing) {
-      setLocalPlan({ ...plan, features: plan.features }); // Inisialisasi features sebagai array kosong jika undefined
-    }
+    const syncLocalPlan = () => {
+      if (isEditing) {
+        setLocalPlan({ ...plan, features: plan.features }); // Inisialisasi features sebagai array kosong jika undefined
+      }
+    };
+    syncLocalPlan();
   }, [isEditing, plan]);
 
   // Fungsi untuk menangani perubahan input
@@ -111,7 +114,7 @@ const Card: React.FC<CardProps> = ({
         </button>
       )}
 
-      <div className="flex-grow">
+      <div className="grow">
         {isEditing ? (
           <>
             {/* Input untuk title */}

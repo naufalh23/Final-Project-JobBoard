@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import fs from 'fs';
 import path from 'path';
 import { addDays } from 'date-fns';
+import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 
 const prisma = new PrismaClient();
 const base_url = process.env.BASE_API_URL
@@ -19,8 +20,8 @@ export class PaymentController {
     try {
       if (!req.file) throw new Error('No file uploaded'); // Jika file tidak diunggah, lemparkan error
 
-      // Buat tautan publik untuk file yang diunggah
-      const link = `${base_url}/public/payment-proof/${req.file.filename}`;
+      // Upload bukti pembayaran ke Cloudinary
+      const link = await uploadToCloudinary(req.file.buffer, 'payment-proof');
 
       // Konversi subscription_type_id menjadi integer
       const subscription_type_id = parseInt(req.body.subscription_type_id, 10);
@@ -63,11 +64,11 @@ export class PaymentController {
         });
       }
 
-      // Perbarui kolom receipt dengan nama file
+      // Perbarui kolom receipt dengan URL Cloudinary
       const updatedPayment = await prisma.paymentTransaction.update({
         where: { transaction_id: payment.transaction_id },
         data: {
-          receipt: req.file.filename, // Simpan nama file di kolom receipt
+          receipt: link,
           status: 'pending',
         },
       });

@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,7 @@ const SearchBar = () => {
 
   return (
     <div className="relative flex items-center space-x-2 w-full max-w-lg">
-      <div className="relative flex-grow">
+      <div className="relative grow">
         <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
         <input
           type="text"

@@ -19,7 +19,7 @@ import CvDashboard from './tabmenu/CVGenerator';
 import PlansBillingDashboard from './tabmenu/PlansBillingTab';
 
 const CandidateDashboard = () => {
-  const router = useRouter()
+  const router = useRouter();
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') || 'overview';
   const [selectedTab, setSelectedTab] = useState(initialTab);
@@ -67,10 +67,13 @@ const CandidateDashboard = () => {
   }, []);
 
   useEffect(() => {
-    const tab = searchParams.get('tab');
-    if (tab) {
-      setSelectedTab(tab);
-    }
+    const syncTab = () => {
+      const tab = searchParams.get('tab');
+      if (tab) {
+        setSelectedTab(tab);
+      }
+    };
+    syncTab();
   }, [searchParams]);
 
   const handleTabChange = (tab: string) => {

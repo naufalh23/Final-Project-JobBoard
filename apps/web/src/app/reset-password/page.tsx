@@ -16,13 +16,16 @@ const ResetPassword = () => {
   const [token, setToken] = useState('');
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tokenFromUrl = urlParams.get('token');
-    if (tokenFromUrl) {
-      setToken(tokenFromUrl);
-    } else {
-      toast.error('Token is missing.');
-    }
+    const syncTokenFromUrl = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tokenFromUrl = urlParams.get('token');
+      if (tokenFromUrl) {
+        setToken(tokenFromUrl);
+      } else {
+        toast.error('Token is missing.');
+      }
+    };
+    syncTokenFromUrl();
   }, []);
 
   const handleSubmit = async () => {
@@ -53,7 +56,11 @@ const ResetPassword = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
-      <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar
+      />
       <div className="max-w-md w-full text-center m-6 mt-[-80px] lg:mt-[-280px] md:mt-[-280px]">
         <h2 className="text-3xl font-semibold mb-4">Reset Password</h2>
         <p className="text-gray-600 mb-8">
@@ -69,7 +76,10 @@ const ResetPassword = () => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
-            <span onClick={() => setShowNewPassword(!showNewPassword)} className="absolute top-3 right-3 cursor-pointer text-gray-500">
+            <span
+              onClick={() => setShowNewPassword(!showNewPassword)}
+              className="absolute top-3 right-3 cursor-pointer text-gray-500"
+            >
               {showNewPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
@@ -81,12 +91,18 @@ const ResetPassword = () => {
               value={confirmNewPassword}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
             />
-            <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute top-3 right-3 cursor-pointer text-gray-500">
+            <span
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute top-3 right-3 cursor-pointer text-gray-500"
+            >
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
         </div>
-        <button onClick={handleSubmit} className="w-full bg-blue-600 text-white py-3 mt-6 rounded-md hover:bg-blue-700 transition">
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-blue-600 text-white py-3 mt-6 rounded-md hover:bg-blue-700 transition"
+        >
           Reset Password
         </button>
       </div>

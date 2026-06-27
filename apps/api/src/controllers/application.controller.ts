@@ -9,6 +9,7 @@ import path from 'path';
 import fs from 'fs';
 import handlebars from 'handlebars';
 import { transporter } from '@/helpers/notmailer';
+import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 
 export const base_url = process.env.BASE_API_URL;
 export const base_fe_url = process.env.BASE_FE_URL;
@@ -29,7 +30,7 @@ export class ApplicationController {
       }
 
       const resumePath = req.file
-        ? `${base_url}/public/resumes/${req.file.filename}`
+        ? await uploadToCloudinary(req.file.buffer, 'resumes')
         : null;
 
       const existingApplication = await prisma.application.findFirst({

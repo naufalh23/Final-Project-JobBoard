@@ -25,15 +25,15 @@ export default function RootLayout({
         <StoreProvider>
           <div className="flex flex-col min-h-screen">
             <Navbar />
-            <main className="flex-grow">{children}</main>
+            <main className="grow">{children}</main>
             <Footer />
           </div>
-            <ToastContainer
-              position="bottom-right"
-              autoClose={3000}
-              closeOnClick
-              draggable
-            />
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            closeOnClick
+            draggable
+          />
         </StoreProvider>
       </body>
     </html>

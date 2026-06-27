@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { FiBriefcase } from 'react-icons/fi';
 import { fetchRecentlyAppliedJobs } from '@/lib/applyJob';
 import { getUserInfo } from '@/lib/user';
@@ -76,9 +77,11 @@ const AppliedJobsTab = () => {
                       <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
                           {job.logo ? (
-                            <img
+                            <Image
                               src={job.logo}
                               alt={`${job.job_title} logo`}
+                              width={48}
+                              height={48}
                               className="object-cover h-full w-full"
                             />
                           ) : (

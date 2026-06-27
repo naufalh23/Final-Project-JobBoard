@@ -12,7 +12,7 @@ import {
 import { useState } from 'react';
 import { FiShare2 } from 'react-icons/fi';
 
-export default function ShareButton({ id }: { id: number }): JSX.Element {
+export default function ShareButton({ id }: { id: number }) {
   const [customMessage, setCustomMessage] = useState('');
   const [isTextareaVisible, setIsTextareaVisible] = useState(false);
   const [showShareButtons, setShowShareButtons] = useState(false);
@@ -49,9 +49,7 @@ export default function ShareButton({ id }: { id: number }): JSX.Element {
 
       {/* Modal with Textarea and Share Buttons */}
       {isTextareaVisible && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-        >
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-4 rounded-md shadow-md w-1/2">
             <button
               className="absolute top-4 right-4 font-bold text-xl text-black hover:text-gray-800"
@@ -72,7 +70,7 @@ export default function ShareButton({ id }: { id: number }): JSX.Element {
                 hashtag={`${customMessage} #hireme`}
               >
                 <div className="relative w-32 h-11 border rounded-md flex items-center overflow-hidden border-[#EDEFF5] group">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#FFF6E6] to-[#0066FF] transform -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0 "></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-[#FFF6E6] to-[#0066FF] transform -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0 "></div>
                   <div className="relative flex items-center z-10 py-3 px-4 hover:text-white text-[#0066FF]">
                     <FacebookIcon size={18} round={true} />
                     <p className="ml-3 text-sm">Facebook</p>
@@ -88,7 +86,7 @@ export default function ShareButton({ id }: { id: number }): JSX.Element {
                 source={customMessage}
               >
                 <div className="relative w-32 h-11 border rounded-md flex items-center overflow-hidden border-[#EDEFF5] group">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#FFF6E6] to-[#0076B2] transform -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0 "></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-[#FFF6E6] to-[#0076B2] transform -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0 "></div>
                   <div className="relative flex items-center z-10 py-3 px-4 hover:text-white text-[#0076B2]">
                     <LinkedinIcon size={18} round={true} />
                     <p className="ml-3 text-sm">LinkedIn</p>
@@ -99,7 +97,7 @@ export default function ShareButton({ id }: { id: number }): JSX.Element {
               {/* Twitter share button */}
               <TwitterShareButton url={currentUrl} title={customMessage}>
                 <div className="relative w-32 h-11 border rounded-md flex items-center overflow-hidden border-[#EDEFF5] group">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#FFF6E6] to-black transform -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0 "></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-[#FFF6E6] to-black transform -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0 "></div>
                   <div className="relative flex items-center z-10 py-3 px-4 hover:text-white text-black">
                     <XIcon size={18} round={true} />
                     <p className="ml-3 text-sm">X/Twitter</p>
@@ -110,7 +108,7 @@ export default function ShareButton({ id }: { id: number }): JSX.Element {
               {/* WhatsApp share button */}
               <WhatsappShareButton url={currentUrl} title={customMessage}>
                 <div className="relative w-32 h-11 border rounded-md flex items-center overflow-hidden border-[#EDEFF5] group">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#FFF6E6] to-[#60D66A] transform -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0 "></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-[#FFF6E6] to-[#60D66A] transform -translate-x-full transition-transform duration-300 ease-in-out group-hover:translate-x-0 "></div>
                   <div className="relative flex items-center z-10 py-3 px-4 hover:text-white text-[#60D66A]">
                     <WhatsappIcon size={18} round={true} />
                     <p className="ml-3 text-sm">Whatsapp</p>

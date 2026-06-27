@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { FiBookmark } from 'react-icons/fi';
 import { fetchFavoriteJobs } from '@/lib/job';
 import { FavoriteJob } from '@/types/job';
@@ -24,7 +25,7 @@ const FavoriteJobsTab = () => {
         console.error('Failed to fetch user info');
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -65,9 +66,11 @@ const FavoriteJobsTab = () => {
                       <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
                           {favorite.job.company.logo ? (
-                            <img
+                            <Image
                               src={favorite.job.company.logo}
                               alt={`${favorite.job.company.company_name} logo`}
+                              width={48}
+                              height={48}
                               className="object-cover h-full w-full"
                             />
                           ) : (
@@ -78,8 +81,12 @@ const FavoriteJobsTab = () => {
                         </div>
                       </div>
                       <div>
-                        <div className="font-bold">{favorite.job.job_title}</div>
-                        <div className="text-sm opacity-50">{favorite.job.location}</div>
+                        <div className="font-bold">
+                          {favorite.job.job_title}
+                        </div>
+                        <div className="text-sm opacity-50">
+                          {favorite.job.location}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -90,7 +97,9 @@ const FavoriteJobsTab = () => {
                       {moment(favorite.created_at).format('h:mm A')}
                     </span>
                     <span className="hidden lg:block">
-                      {moment(favorite.created_at).format('D MMM, YYYY | h:mm A')}
+                      {moment(favorite.created_at).format(
+                        'D MMM, YYYY | h:mm A',
+                      )}
                     </span>
                   </td>
                   <td>

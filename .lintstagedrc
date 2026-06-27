@@ -1,6 +1,6 @@
 {
-  "*.{ts,js,tsx,jsx},!commitlint.config.js": [
-    "eslint . --ext js --report-unused-disable-directives --max-warnings 0",
+  "apps/web/**/*.{ts,tsx,js,jsx}": [
+    "eslint --config apps/web/eslint.config.mjs --report-unused-disable-directives --max-warnings 0",
     "prettier --write"
   ]
 }

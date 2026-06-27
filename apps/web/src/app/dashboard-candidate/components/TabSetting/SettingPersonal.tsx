@@ -81,6 +81,7 @@ const SettingPersonal = () => {
               disabled={!isEditing}
             />
             {profileImage ? (
+              // eslint-disable-next-line @next/next/no-img-element -- can be a data: URL preview (FileReader) before upload, which next/image can't optimize
               <img
                 src={profileImage}
                 alt="Profile"

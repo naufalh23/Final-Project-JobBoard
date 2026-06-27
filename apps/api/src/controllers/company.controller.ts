@@ -1,6 +1,7 @@
 import prisma from '@/prisma';
 import { $Enums, CountryCode, IndustryType, Prisma } from '@prisma/client';
 import { Request, Response } from 'express';
+import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 
 export const base_url = process.env.BASE_API_URL
 
@@ -27,11 +28,11 @@ export class CompanyController {
       } = req.body;
 
       const logoUrl = req.files?.logo?.[0]
-        ? `${base_url}/public/company_logos/${req.files.logo[0].filename}`
+        ? await uploadToCloudinary(req.files.logo[0].buffer, 'company_logos')
         : null;
 
       const bannerUrl = req.files?.banner?.[0]
-        ? `${base_url}/public/company_banners/${req.files.banner[0].filename}`
+        ? await uploadToCloudinary(req.files.banner[0].buffer, 'company_banners')
         : null;
 
       const userId = req.user?.user_id;
@@ -98,11 +99,11 @@ export class CompanyController {
       } = req.body;
 
       const logoUrl = req.files?.logo?.[0]
-        ? `${base_url}/public/company_logos/${req.files.logo[0].filename}`
+        ? await uploadToCloudinary(req.files.logo[0].buffer, 'company_logos')
         : undefined;
 
       const bannerUrl = req.files?.banner?.[0]
-        ? `${base_url}/public/company_banners/${req.files.banner[0].filename}`
+        ? await uploadToCloudinary(req.files.banner[0].buffer, 'company_banners')
         : undefined;
       const updatedCompany = await prisma.company.update({
         where: { company_id: parseInt(req.params.id) },

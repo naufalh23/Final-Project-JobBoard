@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
+import 'react-quill-new/dist/quill.snow.css';
 import { FiUpload } from 'react-icons/fi';
 import { fetchUserCompany, updateCompany } from '@/lib/company';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 const CompanyInfo = () => {
   const [companyId, setCompanyId] = useState<string | null>(null);
