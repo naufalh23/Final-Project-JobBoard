@@ -19,7 +19,7 @@ export class PaymentRouter {
     this.router.post(
       '/upload',
       verifyToken,
-      uploader('payment', 'payment').single('file'), // Menggunakan uploader
+      uploader('payment').single('file'), // Menggunakan uploader
       this.paymentController.uploadPaymentProof,
     );
 

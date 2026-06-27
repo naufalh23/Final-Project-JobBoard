@@ -3,7 +3,7 @@ import { verifyToken } from '@/middlewares/token';
 import { uploader } from '@/middlewares/uploader';
 import { Router } from 'express';
 
-const profilePictureUploader = uploader('profile', 'profile_picture');
+const profilePictureUploader = uploader('profile_picture');
 
 export class UserRouter {
   private router: Router;

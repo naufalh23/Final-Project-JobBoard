@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { FiBriefcase, FiBookmark } from 'react-icons/fi';
 import {
   fetchAppliedJobCount,
@@ -108,10 +109,11 @@ const OverviewTab = ({ setSelectedTab }: OverviewTabProps) => {
                         <div className="avatar">
                           <div className="mask mask-squircle h-12 w-12">
                             {job.logo ? (
-                              // eslint-disable-next-line @next/next/no-img-element -- host is the API's own BASE_API_URL (server-uploaded file), not declarable in next.config.js images.remotePatterns ahead of deployment
-                              <img
+                              <Image
                                 src={job.logo}
                                 alt={`${job.job_title} logo`}
+                                width={48}
+                                height={48}
                                 className="object-cover h-full w-full"
                               />
                             ) : (

@@ -8,8 +8,6 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { MdOpenInNew } from 'react-icons/md';
 
-const base_url = process.env.NEXT_PUBLIC_BASE_API_URL;
-
 const BillsManage: React.FC = () => {
   const router = useRouter();
   const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
@@ -163,7 +161,7 @@ const BillsManage: React.FC = () => {
                 <td className="px-4 py-2 text-center">
                   {tx.receipt ? (
                     <a
-                      href={`${base_url}/public/payment-proof/${tx.receipt}`}
+                      href={tx.receipt}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 flex justify-center"
