@@ -113,4 +113,8 @@ export default class App {
       console.log(`  ➜  [API] Local:   http://localhost:${PORT}/api`);
     });
   }
+
+  public getApp(): Express {
+    return this.app;
+  }
 }
