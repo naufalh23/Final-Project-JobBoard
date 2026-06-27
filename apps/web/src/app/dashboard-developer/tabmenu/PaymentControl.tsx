@@ -6,9 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { MdOpenInNew } from "react-icons/md";
-
-const base_url = process.env.NEXT_PUBLIC_BASE_API_URL
+import { MdOpenInNew } from 'react-icons/md';
 
 const BillsManage: React.FC = () => {
   const router = useRouter();
@@ -96,7 +94,10 @@ const BillsManage: React.FC = () => {
   };
 
   useEffect(() => {
-    loadDashboardData();
+    const run = async () => {
+      await loadDashboardData();
+    };
+    run();
   }, []);
 
   if (loading) return <p>Loading...</p>;
@@ -160,7 +161,7 @@ const BillsManage: React.FC = () => {
                 <td className="px-4 py-2 text-center">
                   {tx.receipt ? (
                     <a
-                      href={`${base_url}/public/payment-proof/${tx.receipt}`}
+                      href={tx.receipt}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 flex justify-center"

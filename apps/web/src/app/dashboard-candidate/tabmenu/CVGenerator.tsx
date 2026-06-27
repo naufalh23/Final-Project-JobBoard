@@ -19,6 +19,23 @@ export default function CvDashboard() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const fetchCv = async () => {
+    setLoading(true);
+    try {
+      const result = await getCvs();
+      if (result.ok && result.cvs && result.cvs.length > 0) {
+        setCv(result.cvs[0]);
+      } else {
+        setCv(null);
+      }
+    } catch (error) {
+      console.error('Error fetching CV:', error);
+      toast.error('An error occurred while fetching CV.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const checkSubscription = async () => {
       const token = await getToken();
@@ -45,23 +62,6 @@ export default function CvDashboard() {
 
     checkSubscription();
   }, [router]);
-
-  const fetchCv = async () => {
-    setLoading(true);
-    try {
-      const result = await getCvs();
-      if (result.ok && result.cvs && result.cvs.length > 0) {
-        setCv(result.cvs[0]);
-      } else {
-        setCv(null);
-      }
-    } catch (error) {
-      console.error('Error fetching CV:', error);
-      toast.error('An error occurred while fetching CV.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleCreate = () => {
     setIsCreating(true);
@@ -121,9 +121,7 @@ export default function CvDashboard() {
   if (!isActiveSubscription) {
     return (
       <div className="flex flex-col justify-center text-center">
-        <h2 className="text-xl font-bold text-gray-800 mb-2">
-          CV Generator
-        </h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-2">CV Generator</h2>
         <p className="text-red-500 font-medium">
           You need an active subscription to access this feature. Redirecting to
           subscription plans...

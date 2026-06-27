@@ -1,6 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin 'daisyui' {
+  themes: light --default, dark;
+}
+@source '../**/*.{js,ts,jsx,tsx}';
+
+@theme {
+  --color-Primary-blue: #0A65CC;
+  --color-Dark-blue: #384358;
+}
 
 body {
   @apply bg-white text-[#18191C];

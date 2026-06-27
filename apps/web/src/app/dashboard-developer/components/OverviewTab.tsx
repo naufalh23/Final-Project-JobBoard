@@ -1,4 +1,5 @@
 import { useState, useEffect, ReactNode } from 'react';
+import Image from 'next/image';
 import { FiBriefcase, FiBookmark, FiDollarSign } from 'react-icons/fi';
 import { getUserInfo } from '@/lib/user';
 import { RecentlyPostedJob } from '@/types/job';
@@ -110,9 +111,11 @@ const Overview = ({ setSelectedTab }: OverviewProps) => {
                         <div className="avatar">
                           <div className="mask mask-squircle h-12 w-12">
                             {job.logo ? (
-                              <img
+                              <Image
                                 src={job.logo}
                                 alt={`${job.job_title} logo`}
+                                width={48}
+                                height={48}
                                 className="object-cover h-full w-full"
                               />
                             ) : (
@@ -193,7 +196,9 @@ const SummaryCard = ({
   };
 
   return (
-    <div className={`p-6 ${color} rounded-lg flex items-center space-x-4 shadow-lg`}>
+    <div
+      className={`p-6 ${color} rounded-lg flex items-center space-x-4 shadow-lg`}
+    >
       {icon}
       <div>
         <h2 className="text-2xl font-semibold">{formatNumber(count)}</h2>
@@ -202,6 +207,5 @@ const SummaryCard = ({
     </div>
   );
 };
-
 
 export default Overview;

@@ -11,27 +11,34 @@ import { countryOptions, industryOptions } from '@/utils/format';
 const FeaturedCompany = () => {
   const [companies, setCompanies] = useState<CompanyCardProps[]>([]);
 
-  const loadCompany = async () => {
-    try {
-      const filters = { dateRange: 'latest' };
-      const companyData = await fetchCompanies(filters);
-
-      const formattedCompanies: CompanyCardProps[] = companyData.map((company: CompanyCardProps) => ({
-        company_id: company.company_id,
-        company_name: company.company_name,
-        logo: company.logo,
-        IndustryType: company.IndustryType,
-        country: company.country,
-      }));
-
-      setCompanies(formattedCompanies);
-    } catch (error) {
-      setCompanies([]);
-    }
-  };
-
   useEffect(() => {
+    let ignore = false;
+
+    const loadCompany = async () => {
+      try {
+        const filters = { dateRange: 'latest' };
+        const companyData = await fetchCompanies(filters);
+
+        const formattedCompanies: CompanyCardProps[] = companyData.map(
+          (company: CompanyCardProps) => ({
+            company_id: company.company_id,
+            company_name: company.company_name,
+            logo: company.logo,
+            IndustryType: company.IndustryType,
+            country: company.country,
+          }),
+        );
+
+        if (!ignore) setCompanies(formattedCompanies);
+      } catch (error) {
+        if (!ignore) setCompanies([]);
+      }
+    };
+
     loadCompany();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return (
@@ -80,11 +87,17 @@ const CompanyCard = ({ company }: CompanyCardComponentProps) => {
           </div>
         )}
         <div className="text-center">
-          <h3 className="text-lg sm:text-xl font-semibold">{company.company_name}</h3>
-          <p className="text-sm text-gray-600">{getLabel(industryOptions, company.IndustryType as string)}</p>
+          <h3 className="text-lg sm:text-xl font-semibold">
+            {company.company_name}
+          </h3>
+          <p className="text-sm text-gray-600">
+            {getLabel(industryOptions, company.IndustryType as string)}
+          </p>
           <div className="flex items-center justify-center text-sm text-gray-600">
             <GoLocation className="mr-1" />
-            <span>{getCountryLabel(countryOptions, company.country as string)}</span>
+            <span>
+              {getCountryLabel(countryOptions, company.country as string)}
+            </span>
           </div>
         </div>
       </div>

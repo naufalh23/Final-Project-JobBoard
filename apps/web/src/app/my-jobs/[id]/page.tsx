@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { use, useState, useEffect } from 'react';
 import {
   Typography,
   Paper,
@@ -21,8 +21,8 @@ import {
   jobTypeOptions,
 } from '@/utils/format';
 
-const JobDetail = ({ params }: { params: { id: string } }) => {
-  const jobId = params.id;
+const JobDetail = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id: jobId } = use(params);
 
   const [formData, setFormData] = useState({
     job_title: '',
@@ -36,37 +36,6 @@ const JobDetail = ({ params }: { params: { id: string } }) => {
     jobType: '',
     is_active: true,
   });
-
-  const fetchJobDetail = async (jobId: string) => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/jobs/${jobId}`
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch job details');
-      }
-
-      const result = await response.json();
-
-      if (result.job) {
-        setFormData({
-          job_title: result.job.job_title || '',
-          description: result.job.description || '',
-          location: result.job.location || '',
-          country: result.job.country || '',
-          salary: result.job.salary?.toString() || '',
-          jobCategory: result.job.jobCategory || '',
-          jobEducationLevel: result.job.jobEducationLevel || '',
-          jobExperience: result.job.jobExperience || '',
-          jobType: result.job.jobType || '',
-          is_active: result.job.is_active || false,
-        });
-      } else {
-      }
-    } catch (error) {
-    }
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -84,41 +53,72 @@ const JobDetail = ({ params }: { params: { id: string } }) => {
         salary: parseFloat(formData.salary),
         is_active: formData.is_active === true,
       };
-  
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/jobs/${jobId}`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
-        }
+        },
       );
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         alert(`Failed to update job: ${errorData.msg || 'Unknown error'}`);
         return;
       }
-  
+
       alert('Job updated successfully!');
     } catch (error) {
       alert('Failed to update job information.');
     }
   };
-  
 
   useEffect(() => {
-    if (jobId) {
-      fetchJobDetail(jobId);
-    }
+    if (!jobId) return;
+
+    const fetchJobDetail = async (jobId: string) => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/jobs/${jobId}`,
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch job details');
+        }
+
+        const result = await response.json();
+
+        if (result.job) {
+          setFormData({
+            job_title: result.job.job_title || '',
+            description: result.job.description || '',
+            location: result.job.location || '',
+            country: result.job.country || '',
+            salary: result.job.salary?.toString() || '',
+            jobCategory: result.job.jobCategory || '',
+            jobEducationLevel: result.job.jobEducationLevel || '',
+            jobExperience: result.job.jobExperience || '',
+            jobType: result.job.jobType || '',
+            is_active: result.job.is_active || false,
+          });
+        }
+      } catch (error) {}
+    };
+
+    fetchJobDetail(jobId);
   }, [jobId]);
 
   return (
     <Paper
       elevation={3}
-      className="p-6 w-full max-w-3xl mx-auto bg-gradient-to-r from-blue-100 to-blue-200 rounded-lg shadow-lg"
+      className="p-6 w-full max-w-3xl mx-auto bg-linear-to-r from-blue-100 to-blue-200 rounded-lg shadow-lg"
     >
-      <Typography variant="h4" className="text-center font-bold mb-6 text-gray-800">
+      <Typography
+        variant="h4"
+        className="text-center font-bold mb-6 text-gray-800"
+      >
         Edit Job Details
       </Typography>
 
@@ -228,7 +228,10 @@ const JobDetail = ({ params }: { params: { id: string } }) => {
           <Select
             value={formData.is_active ? 'Active' : 'Expire'}
             onChange={(e) =>
-              setFormData({ ...formData, is_active: e.target.value === 'Active' })
+              setFormData({
+                ...formData,
+                is_active: e.target.value === 'Active',
+              })
             }
           >
             <MenuItem value="Active">Active</MenuItem>

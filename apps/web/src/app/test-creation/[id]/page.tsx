@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import {
   Container,
   Typography,
@@ -21,66 +21,72 @@ type Question = {
   correctAnswer: string;
 };
 
-const TestCreation = ({ params }: { params: { id: string } }) => {
-    const jobId = params.id; // Ambil jobId langsung dari params
-    const [testId, setTestId] = useState<number | null>(null);
-    const [questions, setQuestions] = useState<Question[]>(
-      Array.from({ length: 25 }, () => ({
-        questionId: undefined,
-        question: '',
-        options: ['', '', '', ''],
-        correctAnswer: '',
-      }))
-    );
-    const [loading, setLoading] = useState(true);
+const TestCreation = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id: jobId } = use(params);
+  const [testId, setTestId] = useState<number | null>(null);
+  const [questions, setQuestions] = useState<Question[]>(
+    Array.from({ length: 25 }, () => ({
+      questionId: undefined,
+      question: '',
+      options: ['', '', '', ''],
+      correctAnswer: '',
+    })),
+  );
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchExistingTest = async () => {
-          try {
-            const response = await fetch(`${base_url}/preselection/get-questions/${jobId}`);
-            if (response.ok) {
-              const data = await response.json();
-              
-              setTestId(data.testId); // Simpan test_id
-    
-              const existingQuestions = data.questions.map((q: any) => ({
-                questionId: q.questionId || undefined,
-                question: q.questionText,
-                options: q.options.map((opt: any) => opt.text),
-                correctAnswer: q.options[q.correctAnswer - 1]?.text || '',
-              }));
-    
-              const totalQuestions = [...existingQuestions];
-              while (totalQuestions.length < 25) {
-                totalQuestions.push({
-                  questionId: undefined,
-                  question: '',
-                  options: ['', '', '', ''],
-                  correctAnswer: '',
-                });
-              }
-    
-              setQuestions(totalQuestions);
-            } else {
-              console.error('Failed to fetch existing questions');
-            }
-          } catch (error) {
-            console.error('Error fetching existing test:', error);
-          } finally {
-            setLoading(false);
+  useEffect(() => {
+    const fetchExistingTest = async () => {
+      try {
+        const response = await fetch(
+          `${base_url}/preselection/get-questions/${jobId}`,
+        );
+        if (response.ok) {
+          const data = await response.json();
+
+          setTestId(data.testId); // Simpan test_id
+
+          const existingQuestions = data.questions.map((q: any) => ({
+            questionId: q.questionId || undefined,
+            question: q.questionText,
+            options: q.options.map((opt: any) => opt.text),
+            correctAnswer: q.options[q.correctAnswer - 1]?.text || '',
+          }));
+
+          const totalQuestions = [...existingQuestions];
+          while (totalQuestions.length < 25) {
+            totalQuestions.push({
+              questionId: undefined,
+              question: '',
+              options: ['', '', '', ''],
+              correctAnswer: '',
+            });
           }
-        };
-    
-        fetchExistingTest();
-      }, [jobId]);
-  
+
+          setQuestions(totalQuestions);
+        } else {
+          console.error('Failed to fetch existing questions');
+        }
+      } catch (error) {
+        console.error('Error fetching existing test:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExistingTest();
+  }, [jobId]);
+
   const handleQuestionChange = (index: number, value: string) => {
     const newQuestions = [...questions];
     newQuestions[index].question = value;
     setQuestions(newQuestions);
   };
 
-  const handleOptionChange = (qIndex: number, optIndex: number, value: string) => {
+  const handleOptionChange = (
+    qIndex: number,
+    optIndex: number,
+    value: string,
+  ) => {
     const newQuestions = [...questions];
     newQuestions[qIndex].options[optIndex] = value;
     setQuestions(newQuestions);
@@ -105,7 +111,7 @@ const TestCreation = ({ params }: { params: { id: string } }) => {
             q.question.trim() !== '' &&
             q.options.every((opt) => opt.trim() !== '') &&
             q.correctAnswer.trim() !== '' &&
-            q.options.includes(q.correctAnswer)
+            q.options.includes(q.correctAnswer),
         )
         .map((q) => {
           const formattedQuestion: any = {
@@ -122,7 +128,9 @@ const TestCreation = ({ params }: { params: { id: string } }) => {
         });
 
       if (formattedQuestions.length === 0) {
-        alert('Tidak ada soal valid untuk disimpan. Pastikan semua soal terisi dengan benar.');
+        alert(
+          'Tidak ada soal valid untuk disimpan. Pastikan semua soal terisi dengan benar.',
+        );
         return;
       }
 
@@ -158,7 +166,10 @@ const TestCreation = ({ params }: { params: { id: string } }) => {
 
   return (
     <ProtectedRoute requiredRole="admin">
-      <Container maxWidth="md" className="bg-white p-6 rounded-lg shadow-md my-8">
+      <Container
+        maxWidth="md"
+        className="bg-white p-6 rounded-lg shadow-md my-8"
+      >
         <Typography variant="h4" align="center" gutterBottom>
           Buat atau Edit Pre-Selection Test
         </Typography>
@@ -176,7 +187,9 @@ const TestCreation = ({ params }: { params: { id: string } }) => {
               value={q.question}
               onChange={(e) => handleQuestionChange(index, e.target.value)}
               error={q.question.trim() === ''}
-              helperText={q.question.trim() === '' ? 'Pertanyaan tidak boleh kosong' : ''}
+              helperText={
+                q.question.trim() === '' ? 'Pertanyaan tidak boleh kosong' : ''
+              }
               className="mb-4"
             />
 
@@ -188,9 +201,13 @@ const TestCreation = ({ params }: { params: { id: string } }) => {
                   variant="outlined"
                   fullWidth
                   value={option}
-                  onChange={(e) => handleOptionChange(index, optIndex, e.target.value)}
+                  onChange={(e) =>
+                    handleOptionChange(index, optIndex, e.target.value)
+                  }
                   error={option.trim() === ''}
-                  helperText={option.trim() === '' ? 'Pilihan tidak boleh kosong' : ''}
+                  helperText={
+                    option.trim() === '' ? 'Pilihan tidak boleh kosong' : ''
+                  }
                 />
               </Box>
             ))}
@@ -201,7 +218,9 @@ const TestCreation = ({ params }: { params: { id: string } }) => {
             <FormControl fullWidth variant="outlined" className="mt-2">
               <Select
                 value={q.correctAnswer}
-                onChange={(e) => handleCorrectAnswerChange(index, e.target.value as string)}
+                onChange={(e) =>
+                  handleCorrectAnswerChange(index, e.target.value as string)
+                }
                 displayEmpty
                 error={q.correctAnswer.trim() === ''}
               >

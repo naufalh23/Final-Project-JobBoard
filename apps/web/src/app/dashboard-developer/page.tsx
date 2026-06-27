@@ -16,7 +16,7 @@ import SubsManage from './tabmenu/SubSetting';
 import BillsManage from './tabmenu/PaymentControl';
 
 const AdminDashboard = () => {
-  const router = useRouter()
+  const router = useRouter();
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') || 'overview';
   const [selectedTab, setSelectedTab] = useState(initialTab);
@@ -61,13 +61,16 @@ const AdminDashboard = () => {
     };
 
     fetchData();
-  }, [router]); 
+  }, [router]);
 
   useEffect(() => {
-    const tab = searchParams.get('tab');
-    if (tab) {
-      setSelectedTab(tab);
-    }
+    const syncTab = () => {
+      const tab = searchParams.get('tab');
+      if (tab) {
+        setSelectedTab(tab);
+      }
+    };
+    syncTab();
   }, [searchParams]);
 
   const handleTabChange = (tab: string) => {
@@ -88,7 +91,7 @@ const AdminDashboard = () => {
       case 'accountSettings':
         return <SettingAccount />;
       default:
-        return <Dashboard/>;
+        return <Dashboard />;
     }
   };
 

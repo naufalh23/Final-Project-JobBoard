@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { logoutAction } from '@/redux/slice/authorSlice';
 import { UserRole } from '@/types/role';
 import { useRouter } from 'next/navigation';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/Logo.png';
 import { toast } from 'react-toastify';
 import NavLinks from './NavLinks';
 import AuthButtons from './AuthButtons';

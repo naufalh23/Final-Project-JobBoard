@@ -17,10 +17,16 @@ const banks = [
   { name: 'Bank BNI', account: '0090123456789' },
 ];
 
+// Kept outside the component: Math.random() must not run during render.
+const generateUniqueCode = () => Math.floor(10 + Math.random() * 90); // Random 2-digit unique code
+
 const CustomerPlans: React.FC = () => {
   const [plans, setPlans] = useState<ISubsType[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<ISubsType | null>(null);
-  const [selectedBank, setSelectedBank] = useState<{ name: string; account: string } | null>(null);
+  const [selectedBank, setSelectedBank] = useState<{
+    name: string;
+    account: string;
+  } | null>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -61,13 +67,19 @@ const CustomerPlans: React.FC = () => {
     const fetchPlans = async () => {
       try {
         const response = await getSubstypes();
-        if (response.ok && response.substypes && Array.isArray(response.substypes.subscriptionstypeAll)) {
+        if (
+          response.ok &&
+          response.substypes &&
+          Array.isArray(response.substypes.subscriptionstypeAll)
+        ) {
           setPlans(response.substypes.subscriptionstypeAll);
         } else {
           toast.error('Failed to fetch plans.');
         }
       } catch (error) {
-        toast.error(`Failed to fetch plans: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
+        toast.error(
+          `Failed to fetch plans: ${error instanceof Error ? error.message : 'Unknown error occurred'}`,
+        );
       }
     };
 
@@ -80,8 +92,10 @@ const CustomerPlans: React.FC = () => {
       return;
     }
 
-    const uniqueCode = Math.floor(10 + Math.random() * 90); // Random 2-digit unique code
-    const modifiedPrice = parseInt(`${plan.price.toString().slice(0, -2)}${uniqueCode}`); // Replace last 2 digits with unique code
+    const uniqueCode = generateUniqueCode();
+    const modifiedPrice = parseInt(
+      `${plan.price.toString().slice(0, -2)}${uniqueCode}`,
+    ); // Replace last 2 digits with unique code
     setTotalPrice(modifiedPrice);
     setSelectedPlan(plan);
     setSelectedBank(banks[0]); // Default to first bank
@@ -103,13 +117,13 @@ const CustomerPlans: React.FC = () => {
       toast.error('Plan and payment proof are required!');
       return;
     }
-  
+
     try {
       const result = await uploadPaymentProof({
         subs_type_id: selectedPlan.subs_type_id,
         payment_proof: selectedFile,
       });
-  
+
       if (result.ok) {
         toast.success('Payment proof uploaded successfully!');
         handleCloseModal();
@@ -119,11 +133,11 @@ const CustomerPlans: React.FC = () => {
       }
     } catch (error) {
       console.error('Error during upload:', error);
-      toast.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      toast.error(
+        `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
   };
-  
-  
 
   if (loading) {
     return <p>Loading...</p>;
@@ -135,32 +149,50 @@ const CustomerPlans: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {plans.map((plan) => (
-          <CustomerCard key={plan.subs_type_id} plan={plan} onChoose={() => handleChoosePlan(plan)} />
+          <CustomerCard
+            key={plan.subs_type_id}
+            plan={plan}
+            onChoose={() => handleChoosePlan(plan)}
+          />
         ))}
       </div>
 
       {/* Overlay dan Modal */}
       {selectedPlan && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 transition-opacity duration-300 ease-in-out"></div>
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ease-in-out"></div>
           <div
             className="fixed inset-0 flex items-center justify-center z-50 p-4 transition-transform transform scale-95 opacity-0 duration-300 ease-in-out"
-            style={{ opacity: selectedPlan ? 1 : 0, transform: selectedPlan ? 'scale(1)' : 'scale(0.95)' }}
+            style={{
+              opacity: selectedPlan ? 1 : 0,
+              transform: selectedPlan ? 'scale(1)' : 'scale(0.95)',
+            }}
           >
             <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg relative">
-              <h2 className="text-xl font-semibold mb-4">Payment for {selectedPlan.type} Plan</h2>
+              <h2 className="text-xl font-semibold mb-4">
+                Payment for {selectedPlan.type} Plan
+              </h2>
               <p className="text-gray-600 mb-4">Payment gateway on develop</p>
-              <p className="text-sm text-gray-500 mb-2">Please select a payment method and upload payment proof manually.</p>
+              <p className="text-sm text-gray-500 mb-2">
+                Please select a payment method and upload payment proof
+                manually.
+              </p>
 
               {/* Harga Total dengan Kode Unik */}
               <div className="mb-4">
-                <label className="block font-medium text-gray-700">Total Amount:</label>
-                <p className="text-2xl font-bold text-blue-500">Rp {new Intl.NumberFormat('id-ID').format(totalPrice)}</p>
+                <label className="block font-medium text-gray-700">
+                  Total Amount:
+                </label>
+                <p className="text-2xl font-bold text-blue-500">
+                  Rp {new Intl.NumberFormat('id-ID').format(totalPrice)}
+                </p>
               </div>
 
               {/* Pilihan Bank */}
               <div className="mb-4">
-                <label className="block font-medium text-gray-700 mb-2">Select Bank:</label>
+                <label className="block font-medium text-gray-700 mb-2">
+                  Select Bank:
+                </label>
                 <select
                   className="w-full p-2 border rounded-lg text-black bg-gray-300"
                   value={selectedBank?.name || ''}
@@ -177,15 +209,23 @@ const CustomerPlans: React.FC = () => {
               {/* Informasi Rekening Bank */}
               {selectedBank && (
                 <div className="mb-4">
-                  <label className="block font-medium text-gray-700">Bank Account:</label>
-                  <p className="text-lg font-bold text-blue-500">{selectedBank.name}</p>
-                  <p className="text-blue-500 font-bold text-2xl">{selectedBank.account}</p>
+                  <label className="block font-medium text-gray-700">
+                    Bank Account:
+                  </label>
+                  <p className="text-lg font-bold text-blue-500">
+                    {selectedBank.name}
+                  </p>
+                  <p className="text-blue-500 font-bold text-2xl">
+                    {selectedBank.account}
+                  </p>
                 </div>
               )}
 
               {/* Upload Bukti Pembayaran */}
               <div className="mb-6">
-                <label className="block font-medium text-gray-700 mb-2">Upload Payment Proof:</label>
+                <label className="block font-medium text-gray-700 mb-2">
+                  Upload Payment Proof:
+                </label>
                 <input
                   type="file"
                   className="w-full p-2 border rounded-lg"
@@ -196,7 +236,10 @@ const CustomerPlans: React.FC = () => {
 
               {/* Tombol Aksi */}
               <div className="flex justify-end">
-                <button onClick={handleCloseModal} className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2">
+                <button
+                  onClick={handleCloseModal}
+                  className="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2"
+                >
                   Cancel
                 </button>
                 <button

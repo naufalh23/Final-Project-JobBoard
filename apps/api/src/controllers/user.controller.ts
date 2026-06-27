@@ -6,6 +6,7 @@ import { transporter } from '@/helpers/notmailer';
 import path from 'path';
 import fs from 'fs';
 import handlebars from 'handlebars';
+import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 
 export const base_url = process.env.BASE_API_URL;
 export const base_fe_url = process.env.BASE_FE_URL;
@@ -281,7 +282,7 @@ export class UserController {
       } = req.body;
 
       const profilePictureUrl = req.file
-        ? `${base_url}/public/profile_pictures/${req.file.filename}`
+        ? await uploadToCloudinary(req.file.buffer, 'profile_pictures')
         : undefined;
 
       const userId = req.user?.user_id;

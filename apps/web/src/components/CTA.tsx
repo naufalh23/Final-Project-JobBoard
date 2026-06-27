@@ -31,15 +31,15 @@ const CTA = () => {
           </div>
 
           {/* Become an Employer */}
-          <div className="p-8 bg-[#0A65CC] rounded-lg shadow-lg flex flex-col justify-between text-white">
+          <div className="p-8 bg-Primary-blue rounded-lg shadow-lg flex flex-col justify-between text-white">
             <div>
               <h2 className="text-2xl font-semibold mb-4">
                 Become an Employer
               </h2>
               <p className="mb-6">
-                Connect with qualified candidates who fit your company&apos;s unique
-                requirements. Post job openings, review applications, and build
-                your dream team.
+                Connect with qualified candidates who fit your company&apos;s
+                unique requirements. Post job openings, review applications, and
+                build your dream team.
               </p>
             </div>
             <Link href="/sign-up">

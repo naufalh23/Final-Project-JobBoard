@@ -36,17 +36,17 @@ const Card: React.FC<CardProps> = ({ job, isFavorited = false }) => {
             alt={`${job.company.company_name} Logo`}
             width={80}
             height={80}
-            className="rounded-full flex-shrink-0"
+            className="rounded-full shrink-0"
           />
         ) : (
-          <div className="w-20 h-20 bg-gray-300 flex items-center justify-center rounded-full text-gray-400 flex-shrink-0">
+          <div className="w-20 h-20 bg-gray-300 flex items-center justify-center rounded-full text-gray-400 shrink-0">
             <FiImage size={40} />
           </div>
         )}
 
         {/* Job Information */}
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-800 break-words">
+          <h3 className="text-lg font-semibold text-gray-800 wrap-break-word">
             {job.job_title}
           </h3>
           <p className="text-sm text-gray-500">{job.company.company_name}</p>
