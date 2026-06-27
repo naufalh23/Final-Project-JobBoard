@@ -1,8 +1,8 @@
-import { CompanyController } from '@/controllers/company.controller';
-import { verifyToken } from '@/middlewares/token';
-import { logoBannerUploader } from '@/middlewares/logoBannerUploader';
+import { CompanyController } from '../controllers/company.controller';
+import { verifyToken } from '../middlewares/token';
+import { logoBannerUploader } from '../middlewares/logoBannerUploader';
 import { Router } from 'express';
-import { checkAdminDev } from '@/middlewares/checkRole';
+import { checkAdminDev } from '../middlewares/checkRole';
 
 
 export class CompanyRouter {

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
-import { certificatePDF } from '@/utils/pdfCertificate';
+import { certificatePDF } from '../utils/pdfCertificate';
 import QRCode from 'qrcode';
 
 export class CertificateController {

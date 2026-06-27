@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { ApplicationController } from '@/controllers/application.controller';
-import { verifyToken } from '@/middlewares/token';
-import { validateApplicationData } from '@/middlewares/validateApplicationData';
-import { uploader } from '@/middlewares/uploader';
-import { checkAdminDev, checkCandidate } from '@/middlewares/checkRole';
+import { ApplicationController } from '../controllers/application.controller';
+import { verifyToken } from '../middlewares/token';
+import { validateApplicationData } from '../middlewares/validateApplicationData';
+import { uploader } from '../middlewares/uploader';
+import { checkAdminDev, checkCandidate } from '../middlewares/checkRole';
 
 const resumeUploader = uploader('resume');
 

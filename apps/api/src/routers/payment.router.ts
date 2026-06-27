@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { PaymentController } from '@/controllers/payment.controller';
-import { verifyToken } from '@/middlewares/token';
-import { checkDeveloperRole } from '@/middlewares/checkRole';
-import { uploader } from '@/middlewares/uploader';
+import { PaymentController } from '../controllers/payment.controller';
+import { verifyToken } from '../middlewares/token';
+import { checkDeveloperRole } from '../middlewares/checkRole';
+import { uploader } from '../middlewares/uploader';
 
 export class PaymentRouter {
   private router: Router;

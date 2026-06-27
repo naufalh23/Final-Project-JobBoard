@@ -1,7 +1,7 @@
-import prisma from '@/prisma';
+import prisma from '../prisma';
 import { $Enums, CountryCode, IndustryType, Prisma } from '@prisma/client';
 import { Request, Response } from 'express';
-import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
+import { uploadToCloudinary } from '../utils/uploadToCloudinary';
 
 export const base_url = process.env.BASE_API_URL
 

@@ -1,6 +1,6 @@
 // controllers/analytics.controller.ts
 import { Request, Response } from 'express';
-import prisma from '@/prisma';
+import prisma from '../prisma';
 
 export class AnalyticsController {
   async getApplicantInterests(req: Request, res: Response) {

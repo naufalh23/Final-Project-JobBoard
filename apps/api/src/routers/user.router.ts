@@ -1,6 +1,6 @@
-import { UserController } from '@/controllers/user.controller';
-import { verifyToken } from '@/middlewares/token';
-import { uploader } from '@/middlewares/uploader';
+import { UserController } from '../controllers/user.controller';
+import { verifyToken } from '../middlewares/token';
+import { uploader } from '../middlewares/uploader';
 import { Router } from 'express';
 
 const profilePictureUploader = uploader('profile_picture');

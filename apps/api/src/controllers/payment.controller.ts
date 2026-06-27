@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import fs from 'fs';
 import path from 'path';
 import { addDays } from 'date-fns';
-import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
+import { uploadToCloudinary } from '../utils/uploadToCloudinary';
 
 const prisma = new PrismaClient();
 const base_url = process.env.BASE_API_URL
